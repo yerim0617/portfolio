@@ -305,3 +305,47 @@ for div in range(0,3):
 
 df = pd.DataFrame({'name':names, 'description':descriptions, 'genre':genres, 'link': links})
 print(df)
+
+##추천 알고리즘 코드 (유사한 작품도 같이 띄워주면 기능적으로 더 이득을 가져갈 것 같다라는 팀원들 간의 회의 끝에 추천 알고리즘 작성하기로 결정)
+
+# 구글 드라이브 연동
+from google.colab import drive
+drive.mount('/content/drive')
+
+# 필요 라이브러리 임포트
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# 데이터 로드 및 전처리
+file_path = "/content/drive/MyDrive/졸작/contents_drama.csv"
+chunk_size = 1000
+
+data_combined = pd.DataFrame()
+for chunk in pd.read_csv(file_path, encoding='cp949', chunksize=chunk_size, na_filter=False):
+    chunk_data = chunk[['name', 'description', 'genre']]
+    chunk_data_cleaned = chunk_data.dropna(subset=['name', 'description', 'genre'])
+    chunk_data_cleaned = chunk_data_cleaned.assign(
+        combined_features=chunk_data_cleaned['genre'] + ' ' + chunk_data_cleaned['description']
+    )
+    data_combined = pd.concat([data_combined, chunk_data_cleaned])
+
+# TF-IDF 및 코사인 유사도
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(data_combined['combined_features'])
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+# 추천 함수
+def recommend_content_list(name, cosine_sim, data):
+    indices = pd.Series(data.index, index=data['name']).drop_duplicates()
+    idx = indices[name]
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:11]
+    content_indices = [i[0] for i in sim_scores]
+    return data['name'].iloc[content_indices]
+
+# 예시 실행
+recommendations = recommend_content_list('보이스', cosine_sim, data_combined)
+print(recommendations)
+
