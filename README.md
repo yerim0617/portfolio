@@ -28,11 +28,11 @@ crawler.get('https://www.netflix.com/kr/login')
 
 #로그인 과정
 #아이디 입력
-crawler.find_element(By.ID, "id_userLoginId").send_keys('lee01020050144@gmail.com')
+crawler.find_element(By.ID, "id_userLoginId").send_keys('사용자 아이디')
 time.sleep(1)
 
 #비밀번호 입력
-crawler.find_element(By.ID, "id_password").send_keys('zxasqw112!@')
+crawler.find_element(By.ID, "id_password").send_keys('비밀번호')
 time.sleep(1)
 
 #로그인 버튼 클릭
