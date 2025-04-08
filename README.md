@@ -27,18 +27,22 @@ crawler.get('https://www.netflix.com/kr/login')
 
 #로그인 과정
 #아이디 입력
+
 crawler.find_element(By.ID, "id_userLoginId").send_keys('사용자 아이디')
 time.sleep(1)
 
 #비밀번호 입력
+
 crawler.find_element(By.ID, "id_password").send_keys('비밀번호')
 time.sleep(1)
 
 #로그인 버튼 클릭
+
 crawler.find_element('xpath', '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/form/button').click()
 time.sleep(1)
 
 #프로필 클릭
+
 crawler.find_element('xpath', '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/ul/li[4]/div/a/span').click()
 time.sleep(1)
 
@@ -54,7 +58,8 @@ links = []
 
 before_h = crawler.execute_script("return window.scrollY")
        
-#스크롤 내리기
+#스크롤 내리기 (컨텐츠 전체 로딩을 위해 스크롤 맨 아래까지 내리기)
+
 while True:
     crawler.find_element(By.CSS_SELECTOR, 'body').send_keys(Keys.END)
     time.sleep(2)
@@ -64,6 +69,7 @@ while True:
     before_h = after_h
    
 #이름, 설명, 장르 가져오기
+
 for row in range(0,3):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -91,6 +97,7 @@ for row in range(0,3):
         links.append(link)
 
 #이름, 설명, 장르 가져오기
+
 for row in range(3,6):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -119,6 +126,7 @@ for row in range(3,6):
 
 
 #이름, 설명, 장르 가져오기
+
 for row in range(6,9):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -147,6 +155,7 @@ for row in range(6,9):
 
 
 #이름, 설명, 장르 가져오기
+
 for row in range(9,12):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -175,6 +184,7 @@ for row in range(9,12):
 
 
 #이름, 설명, 장르 가져오기
+
 for row in range(12,15):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -202,6 +212,7 @@ for row in range(12,15):
         links.append(link)
 
 #이름, 설명, 장르 가져오기
+
 for row in range(15,18):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -229,6 +240,7 @@ for row in range(15,18):
         links.append(link)
 
 #이름, 설명, 장르 가져오기
+
 for row in range(18,21):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
@@ -256,6 +268,7 @@ for row in range(18,21):
         links.append(link)
 
 #이름, 설명, 장르 가져오기
+
 for row in range(21,23):
     for div in range(1,6):
         crawler.find_element('xpath', '//*[@id="row-{}"]/div/div/div/div/div/div[{}]'.format(row,div)).click()
